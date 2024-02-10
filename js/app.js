@@ -35,7 +35,51 @@ window.addEventListener('load',function(){
         },3000)
     }
 
-   
+    function winner(){
+        blocked=false;
+        let comb=userStep+compStep;
+
+        switch(comb){
+            case 'rr':
+            case 'ss':
+            case 'pp':
+                res.innerText='Ничья!';
+                sound.setAttribute('src','audio/draw.mp3');
+                sound.play();
+                break;
+
+            case 'rs':
+            case 'sp':
+            case 'pr':
+                res.innerText='Победили вы!';
+                sound.setAttribute('src','audio/win.mp3');
+                sound.play();
+                countU++;
+                countUser.innerText=countU;
+                userField.querySelector('[data-field='+compStep+']').classList.add('error');
+                break;
+
+            case 'sr':
+            case 'ps':
+            case 'rp':
+                res.innerText='Победил компьютер!';
+                sound.setAttribute('src','audio/loss.mp3');
+                sound.play();
+                countC++;
+                countComp.innerText=countC;
+                userField.querySelector('[data-field='+userStep+']').classList.add('error');
+                break;
+        }
+    }
+
+    function playGame(){
+        countU=countC=0;
+        res.innerText='Сделайте выбор';
+        countUser.innerText='0';
+        countComp.innerHTML='0';
+        fields.forEach(item=>item.classList.remove('active','error'));
+    }
+
     play.addEventListener('click',playGame);
     userField.addEventListener('click',choiceUser);
 });
